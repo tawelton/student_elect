@@ -1,0 +1,30 @@
+<%inherit file="app_base.htm" />
+
+<%block name="title">Create Poll</%block>
+<%block name="pageTitle">Create Poll</%block>
+
+<%block name="page_content">
+
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      
+      <div class="col-lg-6 col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="p-4">
+
+              <div class="create-poll-prompt mb-4">
+                <h3 class="text-left mt-0">Let's start off by giving the poll a name.</h3>
+              </div>
+              <form method="POST">
+              ${ pollform.as_table() }
+
+              <button type="submit" class="btn btn-primary mt-4">Create</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</%block>

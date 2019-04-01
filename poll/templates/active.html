@@ -1,0 +1,50 @@
+<%inherit file="app_base.htm" />
+
+<%block name="title">Active Polls</%block>
+<%block name="pageTitle">Active Polls</%block>
+
+<%block name="page_content">
+
+  <% from django.db.models import Count %>
+
+  <div class="container-fluid">
+    <div class="row">
+      
+      %for poll in polls:
+
+      <div class="col-lg-6 col-md-6">
+        <div class="card mt-0">
+          <div class="card-body">
+              <h3 class="card-title text-truncate mr-5">${ poll.title }</h3>
+            <div class="row">
+              <div class="col-lg-12 col-md-12 table-responsive mt-3">
+                  <table class="table table-hover">
+                      <h6 class="h6 text-left mb-0 ml-2">Top 5</h6>
+                      <thead class="text-primary">
+                        <th>Name</th>
+                        <th class="text-center">Votes</th>
+                      </thead>
+                      <tbody>
+
+                        %for candidate in poll.candidate_set.filter(status='A').annotate(num_votes=Count('vote')).order_by('-num_votes')[:5]:
+
+                        <tr>
+                          <td>${ candidate.firstname + " " + candidate.lastname }</td>
+                          <td class="text-center">${ candidate.vote_set.filter(round=poll.round).count() }</td>
+                        </tr>
+                        
+                        %endfor
+                      </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+          <a class="btn btn-block btn-warning btn-round btn-just-icon edit-button" href="/dashboard/edit/${ poll.id }"><i class="material-icons">edit</i></a>
+        </div>
+      </div>
+
+    %endfor
+
+    </div>
+  </div>
+</%block>
